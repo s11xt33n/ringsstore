@@ -1,0 +1,56 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Все заказы - NFC Shop{% endblock %}
+
+{% block content %}
+<h2>Все заказы</h2>
+<p>Список всех заказов в системе</p>
+
+{% if orders %}
+    <div class="orders-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Клиент</th>
+                    <th>Продукт</th>
+                    <th>Количество</th>
+                    <th>Текст для гравировки</th>
+                    <th>Статус</th>
+                    <th>Дата создания</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>
+                        <strong>{{ order.customer_name }}</strong><br>
+                        <small style="color: #666;">{{ order.email }}</small><br>
+                        <small style="color: #666;">{{ order.phone }}</small>
+                    </td>
+                    <td>{{ order.product.name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">{{ order.custom_text }}</td>
+                    <td>
+                        <span class="status-badge status-{{ order.status }}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert">
+        <p>Заказов пока нет.</p>
+    </div>
+{% endif %}
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'index' %}" class="btn">Вернуться на главную</a>
+</div>
+{% endblock %}
+

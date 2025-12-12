@@ -1,0 +1,99 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}{{ product.name }} - Ring Shop{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <a href="{% url 'index' %}" class="btn btn-secondary" style="margin-bottom: 20px;">← Назад к списку</a>
+    
+    <div style="background: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+            <div>
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100%; border-radius: 10px;">
+                {% else %}
+                    <div style="width: 100%; height: 300px; background: #e0e0e0; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        Нет изображения
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+                <h2 style="margin-bottom: 15px;">{{ product.name }}</h2>
+                <div style="margin-bottom: 10px;">
+                    <span style="background: #f0f0f0; padding: 5px 10px; border-radius: 5px; font-size: 0.9em; margin-right: 10px;">
+                        {{ product.get_ring_type_display }}
+                    </span>
+                    <span style="background: #f0f0f0; padding: 5px 10px; border-radius: 5px; font-size: 0.9em;">
+                        {{ product.get_material_display }}
+                    </span>
+                </div>
+                <div class="product-price" style="font-size: 2em; margin-bottom: 20px;">{{ product.price }} ₽</div>
+                <p style="color: #666; line-height: 1.8;">{{ product.description }}</p>
+            </div>
+        </div>
+        
+        <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
+        
+        <h3 style="margin-bottom: 20px;">Оформить заказ</h3>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.customer_name.id_for_label }}">{{ form.customer_name.label }}</label>
+                {{ form.customer_name }}
+                {% if form.customer_name.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">{{ form.customer_name.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+                {{ form.phone }}
+                {% if form.phone.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">{{ form.phone.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.ring_size.id_for_label }}">{{ form.ring_size.label }}</label>
+                {{ form.ring_size }}
+                {% if form.ring_size.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">{{ form.ring_size.errors }}</div>
+                {% endif %}
+                <small style="color: #666; display: block; margin-top: 5px;">Укажите размер кольца (например: 16, 17, 18)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.quantity.id_for_label }}">{{ form.quantity.label }}</label>
+                {{ form.quantity }}
+                {% if form.quantity.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">{{ form.quantity.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.engraving_text.id_for_label }}">{{ form.engraving_text.label }}</label>
+                {{ form.engraving_text }}
+                {% if form.engraving_text.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">{{ form.engraving_text.errors }}</div>
+                {% endif %}
+                <small style="color: #666; display: block; margin-top: 5px;">Текст для гравировки на кольце (необязательно)</small>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%; font-size: 1.1em; padding: 15px;">
+                Отправить заказ
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

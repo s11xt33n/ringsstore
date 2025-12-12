@@ -1,0 +1,35 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Главная - Ring Shop{% endblock %}
+
+{% block content %}
+<h2>Наша коллекция колец</h2>
+<p>Выберите обручальное или помолвочное кольцо и оформите заказ с индивидуальной гравировкой</p>
+
+{% if products %}
+    <div class="products-grid">
+        {% for product in products %}
+        <div class="product-card">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            {% else %}
+                <div class="product-image" style="display: flex; align-items: center; justify-content: center; color: #999;">
+                    Нет изображения
+                </div>
+            {% endif %}
+            <div class="product-info">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-description">{{ product.description }}</p>
+                <div class="product-price">{{ product.price }} ₽</div>
+                <a href="{% url 'product_detail' product.id %}" class="btn">Оформить заказ</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert">
+        <p>Продукты пока не добавлены. Добавьте их через админ-панель.</p>
+    </div>
+{% endif %}
+{% endblock %}
+

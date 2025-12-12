@@ -1,0 +1,39 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Заказ принят - NFC Shop{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; text-align: center;">
+    <div style="background: white; border-radius: 10px; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div style="font-size: 4em; margin-bottom: 20px;">✅</div>
+        <h2 style="margin-bottom: 20px; color: #28a745;">Заказ принят!</h2>
+        
+        <div class="alert alert-success">
+            <p><strong>Спасибо за ваш заказ!</strong></p>
+            <p>Мы получили ваш заказ и свяжемся с вами в ближайшее время.</p>
+        </div>
+        
+        <div style="background: #f8f9fa; border-radius: 5px; padding: 20px; margin: 30px 0; text-align: left;">
+            <h3 style="margin-bottom: 15px;">Детали заказа:</h3>
+            <p><strong>Номер заказа:</strong> #{{ order.id }}</p>
+            <p><strong>Продукт:</strong> {{ order.product.name }}</p>
+            <p><strong>Имя:</strong> {{ order.customer_name }}</p>
+            <p><strong>Email:</strong> {{ order.email }}</p>
+            <p><strong>Телефон:</strong> {{ order.phone }}</p>
+            <p><strong>Количество:</strong> {{ order.quantity }}</p>
+            <p><strong>Текст для гравировки:</strong> {{ order.custom_text }}</p>
+            <p><strong>Статус:</strong> 
+                <span class="status-badge status-{{ order.status }}">
+                    {{ order.get_status_display }}
+                </span>
+            </p>
+        </div>
+        
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <a href="{% url 'index' %}" class="btn">Вернуться к каталогу</a>
+            <a href="{% url 'orders_list' %}" class="btn btn-secondary">Посмотреть все заказы</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
